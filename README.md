@@ -75,7 +75,7 @@ git clone --recursive https://github.com/yjxiong/temporal-segment-networks
 Then run the building scripts to build the libraries.
 
 ```
-bash build_all.sh
+bash build_all.sh      # 该脚本已经安装openCV、编译了lib下面的子模块，包括caffe和dense_flow
 ```
 It will build Caffe and dense_flow. Since we need OpenCV to have Video IO, which is absent in most default installations, it will also download and build a local installation of OpenCV and use its Python interfaces.
 
@@ -94,9 +94,10 @@ After download, please extract the videos from the `rar` archives.
 - HMDB51: the HMDB51 video archive has two-level of packaging.
 The following commands illustrate how to extract the videos.
 ```
-mkdir rars && mkdir videos
-unrar x hmdb51-org.rar rars/
-for a in $(ls rars); do unrar x "rars/${a}" videos/; done;
+首先需要根据给定的链接在官网下载ucf101和hmdb51压缩文件
+mkdir rars && mkdir videos     # 创建文件夹
+unrar x hmdb51-org.rar rars/    # 解压hmdb51到rars文件夹下，加压后的文件仍是rar压缩文件
+for a in $(ls rars); do unrar x "rars/${a}" videos/; done;    # 读取rars文件夹下的rar子文件，进行解压，解压到videos文件夹下。
 ```
 
 ### Get trained models

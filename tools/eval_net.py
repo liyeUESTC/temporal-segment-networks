@@ -7,7 +7,7 @@ import numpy as np
 import multiprocessing
 from sklearn.metrics import confusion_matrix
 
-sys.path.append('.')
+sys.path.append('.')    # 添加pyActionRecog搜索目录，作为后面import的搜索路径。
 from pyActionRecog import parse_directory
 from pyActionRecog import parse_split_file
 

@@ -75,7 +75,7 @@ git clone --recursive https://github.com/yjxiong/temporal-segment-networks
 Then run the building scripts to build the libraries.
 
 ```
-bash build_all.sh      # 该脚本已经安装openCV、编译了lib下面的子模块，包括caffe和dense_flow
+bash build_all.sh      # 该脚本已经安装openCV、编译了lib下面的子模块，包括caffe和dense_flow，但没有编译python接口。所以需要自己重新编译caffe.
 ```
 It will build Caffe and dense_flow. Since we need OpenCV to have Video IO, which is absent in most default installations, it will also download and build a local installation of OpenCV and use its Python interfaces.
 

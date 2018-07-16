@@ -10,34 +10,34 @@ def parse_directory(path, rgb_prefix='img_', flow_x_prefix='flow_x_', flow_y_pre
     Parse directories holding extracted frames from standard benchmarks
     """
     print 'parse frames under folder {}'.format(path)
-    frame_folders = glob.glob(os.path.join(path, '*'))
+    frame_folders = glob.glob(os.path.join(path, '*'))  # 返回目录下的所有文件路径列表，list格式，output：video所在路径
 
     def count_files(directory, prefix_list):
-        lst = os.listdir(directory)
-        cnt_list = [len(fnmatch.filter(lst, x+'*')) for x in prefix_list]
-        return cnt_list
+        lst = os.listdir(directory)  # 返回指定文件中，所有文件和文件夹的名字的列表
+        cnt_list = [len(fnmatch.filter(lst, x+'*')) for x in prefix_list]  # fnmatch.filter:实现列表特殊字符的过滤和筛选
+        return cnt_list    # 返回的是每个视频中，包含的rgb、flow_x、flow_y的数量
 
     # check RGB
     rgb_counts = {}
     flow_counts = {}
     dir_dict = {}
-    for i,f in enumerate(frame_folders):
+    for i,f in enumerate(frame_folders):  # index和数值都取出来
         all_cnt = count_files(f, (rgb_prefix, flow_x_prefix, flow_y_prefix))
-        k = f.split('/')[-1]
-        rgb_counts[k] = all_cnt[0]
-        dir_dict[k] = f
+        k = f.split('/')[-1]   # f只包含了视频名称，没有具体到图片或者光流，k为video名称
+        rgb_counts[k] = all_cnt[0]  # 用字典，记录每个video中rgb的数量
+        dir_dict[k] = f  # 用字典，记录每个video的路径
 
-        x_cnt = all_cnt[1]
-        y_cnt = all_cnt[2]
+        x_cnt = all_cnt[1]  # 分别为x光流
+        y_cnt = all_cnt[2]  # 分别为y光流
         if x_cnt != y_cnt:
             raise ValueError('x and y direction have different number of flow images. video: '+f)
-        flow_counts[k] = x_cnt
+        flow_counts[k] = x_cnt  # 用字典，记录每个video中光流的数量
         if i % 200 == 0:
-            print '{} videos parsed'.format(i)
+            print '{} videos parsed'.format(i)   # i在ucf101中是13320
 
     print 'frame folder analysis done'
     return dir_dict, rgb_counts, flow_counts
-
+    # 返回每个video的路径和对应的rgb、flow数量
 
 def build_split_list(split_tuple, frame_info, split_idx, shuffle=False):
     split = split_tuple[split_idx]

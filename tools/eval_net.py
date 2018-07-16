@@ -39,7 +39,7 @@ from pyActionRecog.action_caffe import CaffeNet
 
 # build neccessary information
 print args.dataset
-split_tp = parse_split_file(args.dataset)
+split_tp = parse_split_file(args.dataset)   # __init__.py函数中  output：spare_ucf_splits
 f_info = parse_directory(args.frame_path,
                          args.rgb_prefix, args.flow_x_prefix, args.flow_y_prefix)
 
@@ -81,7 +81,7 @@ def eval_video(video):
     elif args.modality == 'flow':
         stack_depth = 5
 
-    step = (frame_cnt - stack_depth) / (args.num_frame_per_video-1)
+    step = (frame_cnt - stack_depth) / (args.num_frame_per_video-1)  # num_frame_per_video默认是25
     if step > 0:
         frame_ticks = range(1, min((2 + step * (args.num_frame_per_video-1)), frame_cnt+1), step)
     else:
@@ -92,7 +92,7 @@ def eval_video(video):
     frame_scores = []
     for tick in frame_ticks:
         if args.modality == 'rgb':
-            name = '{}{:05d}.jpg'.format(args.rgb_prefix, tick)
+            name = '{}{:05d}.jpg'.format(args.rgb_prefix, tick)  #rgb_prefix默认是“img_”,找到对应的图片名字
             frame = cv2.imread(os.path.join(video_frame_path, name), cv2.IMREAD_COLOR)
             scores = net.predict_single_frame([frame,], score_name, frame_size=(340, 256))
             frame_scores.append(scores)
@@ -112,7 +112,7 @@ def eval_video(video):
     return np.array(frame_scores), label
 
 if args.num_worker > 1:
-    pool = multiprocessing.Pool(args.num_worker, initializer=build_net)
+    pool = multiprocessing.Pool(args.num_worker, initializer=build_net)  # 提供指定数量进程供用户调用
     video_scores = pool.map(eval_video, eval_video_list)
 else:
     build_net()

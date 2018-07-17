@@ -113,7 +113,7 @@ def eval_video(video):
 
 if args.num_worker > 1:
     pool = multiprocessing.Pool(args.num_worker, initializer=build_net)  # 提供指定数量进程供用户调用
-    video_scores = pool.map(eval_video, eval_video_list)
+    video_scores = pool.map(eval_video, eval_video_list)  # pool map:将eval_video_list依次作为参数传入eval_video函数中。
 else:
     build_net()
     video_scores = map(eval_video, eval_video_list)
